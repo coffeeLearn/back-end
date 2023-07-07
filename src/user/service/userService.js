@@ -2,7 +2,6 @@ const User = require("../model/userModel");
 const bcrypt = require("bcrypt");
 const { v4 } = require('uuid');
 const dayjs = require("dayjs");
-const { use } = require("bcrypt/promises");
 const jwt = require("jsonwebtoken");
 
 class userService {
