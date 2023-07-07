@@ -46,6 +46,22 @@ adminRouter.delete('/:id', adminOnly, async (req, res, next) => {
     }
 });
 
+adminRouter.put('/:id', adminOnly, async (req, res, next) => {
+    try {
+      const categoryId = req.params.id;
+      const name = req.body.name;
+      const description = req.body.description;
+
+      const newCategoryValue = { name, description };
+      
+      const putCategory = await adminService.putCategory({ categoryId, newCategoryValue });
+
+      res.status(200).send(putCategory);
+    } catch(err) {
+      next(err);
+    }
+});
+
 
 
 
