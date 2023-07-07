@@ -36,6 +36,20 @@ class adminService {
         return result;
     }
 
+    static async putCategory({ categoryId, newCategoryValue }) {
+        let category = await Category.findById({ categoryId });
+
+        if(!category) {
+            return "해당하는 카테고리가 없습니다. 존재하는 카테고리 이름을 입력해주세요.";
+        }
+        
+        const categoryObjectid = category._id;
+
+        category = await Category.update({ categoryObjectid, newCategoryValue });
+
+        return category;
+    }
+
 }
 
 

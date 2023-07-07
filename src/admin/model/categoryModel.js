@@ -28,6 +28,16 @@ class CategoryModel {
 
         return '카테고리 삭제 완료';
     }
+
+    static async update({ categoryObjectid, newCategoryValue }) {
+        // findOneAndUpdate vs updateOne
+        // 수정이 되었는지 확인하기 위해 반환시켜주는 findOneAndUpdate 사용
+        const filter = { _id: categoryObjectid };
+        const update = { $set: newCategoryValue };
+        const updateCategory = await Category.findOneAndUpdate( filter, update, { returnNewDocument:true });
+        
+        return updateCategory;
+    }
 }
 
 module.exports = CategoryModel;
