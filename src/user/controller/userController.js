@@ -19,23 +19,26 @@ userRouter.post("/signup", async (req, res, next) => {
     }
 });
 
-userRouter.post("/signin", async(req, res, next) => {
+userRouter.post("/login", async(req, res, next) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
 
         const loginUser = await userService.signin({ email, password });
 
+
+        // 프론트 단에 저장?
         res.cookie("token", loginUser.token).status(200).send(loginUser);
     } catch (err) {
         next(err);
     }
 });
 
-userRouter.get("/signout", async(req, res, next) => {
+userRouter.get("/logout", async(req, res, next) => {
 
     res.cookie("token", null, { maxAge: 0});
     res.render("");
-})
+});
+
 
 module.exports = userRouter;
