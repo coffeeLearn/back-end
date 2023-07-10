@@ -7,8 +7,9 @@ class CategoryModel {
         return createdCategory;
     }
 
-    static async findByName({ name }) {
-        const category = await Category.findOne({ name });
+    static async findByName({ categoryName }) {
+        console.log(categoryName);
+        const category = await Category.findOne({ name: categoryName });
         return category;
     }
 
@@ -29,13 +30,12 @@ class CategoryModel {
         return '카테고리 삭제 완료';
     }
 
-    static async update({ categoryObjectid, newCategoryValue }) {
+    static async update({ categoryName, newCategoryValue }) {
         // findOneAndUpdate vs updateOne
         // 수정이 되었는지 확인하기 위해 반환시켜주는 findOneAndUpdate 사용
-        const filter = { _id: categoryObjectid };
-        const update = { $set: newCategoryValue };
-        const updateCategory = await Category.findOneAndUpdate( filter, update, { returnNewDocument:true });
-        
+
+        const updateCategory = await Category.findOneAndUpdate( { name: categoryName }, { $set: newCategoryValue }, { returnNewDocument: true });
+
         return updateCategory;
     }
 }

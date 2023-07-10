@@ -26,18 +26,10 @@ userRouter.post("/login", async(req, res, next) => {
 
         const loginUser = await userService.signin({ email, password });
 
-
-        // 프론트 단에 저장?
-        res.cookie("token", loginUser.token).status(200).send(loginUser);
+        res.status(200).send(loginUser);
     } catch (err) {
         next(err);
     }
-});
-
-userRouter.get("/logout", async(req, res, next) => {
-
-    res.cookie("token", null, { maxAge: 0});
-    res.render("");
 });
 
 

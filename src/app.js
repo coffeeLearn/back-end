@@ -8,6 +8,8 @@ var indexRouter = require('../routes/index');
 var usersRouter = require('./user/controller/userController');
 var adminRouter = require('./admin/controller/adminController');
 
+var adminOnly = require('./middlewares/admin-only');
+
 var app = express();
 
 // view engine setup
@@ -22,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
-app.use('/admin', adminRouter);
+app.use('/admin', adminOnly, adminRouter);
 
 
 // catch 404 and forward to error handler
