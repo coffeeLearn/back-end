@@ -149,10 +149,10 @@ adminRouter.put('/product/:name', async (req, res, next) => {
   }
 });
 
-adminRouter.delete('/product/:id', async (req, res, next) => {
+adminRouter.delete('/product/:name', async (req, res, next) => {
   try {
-    const productId = req.params.id;
-    const deleteProduct = await adminService.deleteProduct({ productId });
+    const productName = req.params.name;
+    const deleteProduct = await adminService.deleteProduct({ productName });
 
       res.status(200).send(deleteProduct);
   } catch(err) {

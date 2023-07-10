@@ -116,8 +116,8 @@ class adminService {
         return product;
     }
 
-    static async deleteProduct({ productId }) {
-        const product = await Product.findById({ productId });
+    static async deleteProduct({ productName }) {
+        const product = await Product.findByproName({ productName });
 
         if(!product) {
             throw new Error("해당하는 상품이 없습니다. 상품 아이디를 다시 확인해주세요.");
