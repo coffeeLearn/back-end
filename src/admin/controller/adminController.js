@@ -1,3 +1,4 @@
+/*
 const express = require("express");
 const adminRouter = express();
 const adminService = require("../service/adminService");
@@ -141,7 +142,7 @@ adminRouter.put('/product/:name', async (req, res, next) => {
 
     const newProductValue = { category, taste, name, price, amount, mainImage, subImage, description, show, reg_date, origin };
       
-    const putProduct = await adminService.putProduct({ productName, newProductValue });
+    const putProduct = await adminService.putProduct({ name: productName, newProductValue });
 
       res.status(200).send(putProduct);
   } catch(err) {
@@ -164,3 +165,4 @@ adminRouter.delete('/product/:name', async (req, res, next) => {
 
 
 module.exports = adminRouter;
+*/

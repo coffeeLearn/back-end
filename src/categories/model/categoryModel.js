@@ -7,9 +7,8 @@ class CategoryModel {
         return createdCategory;
     }
 
-    static async findByName({ categoryName }) {
-        console.log(categoryName);
-        const category = await Category.findOne({ name: categoryName });
+    static async findByName({ name }) {
+        const category = await Category.findOne({ name });
         return category;
     }
 

@@ -22,11 +22,11 @@ const ProductSchema = mongoose.Schema({
         type: Number,
         require: true
     },
-    mainImage: {
+    mainImg: {
         type: String,
         require: false
     },
-    subImage: {
+    subImg: {
         type: String,
         require: false
     },

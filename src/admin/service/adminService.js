@@ -1,6 +1,7 @@
+/*
 const Category = require("../model/categoryModel");
-const User = require("../../user/model/userModel");
-const Product = require("../model/productModel");
+const User = require("../../users/model/userModel");
+const Product = require("../../products/model/productModel");
 const dayjs = require("dayjs");
 
 class adminService {
@@ -102,8 +103,8 @@ class adminService {
         return createProduct;
     }
 
-    static async putProduct({ productName, newProductValue }) {
-        let product = await Product.findByproName({ productName });
+    static async putProduct({ name, newProductValue }) {
+        let product = await Product.findByName({ name });
 
         if(!product) {
            throw new Error("해당하는 상품이 없습니다. 상품 아이디를 다시 확인해주세요.");
@@ -135,3 +136,4 @@ class adminService {
 
 
 module.exports = adminService;
+*/

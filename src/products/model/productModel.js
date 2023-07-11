@@ -5,21 +5,14 @@ class ProductModel {
     static async create({ newProduct }) {
         const createdProduct = await Product.create(newProduct);
         return createdProduct;
-    }
+    } 
 
     static async findByName({ name }) {
-        const product = await Product.findOne({ name: name });
-        return product;
-    }
-
-    static async findByproName({ productName }) {
-        const product = await Product.findOne({ name: productName });
-        return product;
+        return await Product.findOne({ name });
     }
 
     static async findAll() {
-        const productList = await Product.find({});
-        return productList;
+        return await Product.find({});
     }
 
     static async findById({ productId }) {
@@ -33,8 +26,10 @@ class ProductModel {
     }
 
     static async update({ productObjectId, newProductValue }) {
-        
+
         const updateProduct = await Product.findOneAndUpdate( { _id: productObjectId }, { $set: newProductValue }, { returnNewDocument: true });
+
+        console.log(updateProduct);
 
         return updateProduct;
     }
