@@ -51,6 +51,42 @@ class userService {
         return loginUser;
     }
 
+
+    static async getUser({ id }) {
+        const user = await User.findById({ id });
+
+        if(!user) {
+            throw new Error("일치하는 회원이 없습니다. 다시 확인해 주세요.");
+        }
+
+        return user;
+    }
+
+    static async putUser({ id, newUserValue}) {
+        let user = await User.findById({ id });
+
+        if(!user) {
+            throw new Error("해당하는 회원이 없습니다. 다시 확인해 주세요.");
+        }
+
+        newUserValue.password = await bcrypt.hash(newUserValue.password, 10);
+
+        user = await User.update({ id, newUserValue });
+
+        return user;
+    }
+
+    static async withdrawal({ id }) {
+        const user = await User.findById({ id });
+
+        if(!user) {
+            throw new Error("해당하는 회원이 없습니다. 다시 확인해 주세요.");
+        }
+
+        const result = await User.delete({ id });
+
+        return result;
+    }
 }
 
 module.exports = userService;

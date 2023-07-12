@@ -17,6 +17,25 @@ class UserModel {
         return createdNewUser;
     }
 
+    static async findById({ id }) {
+        const user = await User.findById(id);
+        return user;
+    }
+
+    static async update({ id, newUserValue }) {
+        const user = await User.updateOne( { _id: id }, { $set: newUserValue });
+    
+        const finduser = await User.findById(id);
+
+        return finduser;
+    }
+
+    static async delete({ id }) {
+        await User.deleteOne({ _id: id });
+
+        return "회원 탈퇴 완료";
+    }
+
 }
 
 module.exports = UserModel;

@@ -9,6 +9,7 @@ var categoriesRouter = require('./categories/controller/categoriesController');
 var productsRouter = require('./products/controller/productsController');
 
 var adminOnly = require('./middlewares/admin-only');
+var login_required = require('./middlewares/login-required');
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRouter);
+app.use('/users/mypage', login_required, usersRouter);
 app.use('/admin/categories', adminOnly, categoriesRouter);
 app.use('/admin/products', adminOnly, productsRouter);
 

@@ -31,7 +31,6 @@ productsRouter.post('/', upload.fields([ { name: 'mainImg', maxCount: 1 }, { nam
       const mImg = req.files.mainImg[0].location;
       const sImg = req.files.subImg[0].location;
 
-      //console.log(JSON.parse(req.body.data));
       const { category, taste, name, price, amount, description, show, origin } = JSON.parse(req.body.data);
       const newProduct = await productsService.addProduct({ category, taste, name, price, amount, mainImg: mImg, subImg: sImg, description, show, origin });
 
