@@ -1,4 +1,5 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
+require('dotenv').config();
 
 function login_required(req, res, next) {
   // request 헤더로부터 authorization bearer 토큰을 받음.
@@ -16,7 +17,7 @@ function login_required(req, res, next) {
   try {
     const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
     const jwtDecoded = jwt.verify(userToken, secretKey);
-    const user_id = jwtDecoded.user_id;
+    const user_id = jwtDecoded.id;
     req.currentUserId = user_id;
     next();
   } catch (error) {
@@ -25,4 +26,4 @@ function login_required(req, res, next) {
   }
 }
 
-export { login_required };
+module.exports = login_required;

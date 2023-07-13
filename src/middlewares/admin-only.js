@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+require('dotenv').config();
 
 function adminOnly(req, res, next) {
   // request 헤더로부터 authorization bearer 토큰을 받음.
