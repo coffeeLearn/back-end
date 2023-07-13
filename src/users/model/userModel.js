@@ -23,7 +23,7 @@ class UserModel {
     }
 
     static async update({ id, newUserValue }) {
-        const user = await User.updateOne( { _id: id }, { $set: newUserValue });
+        await User.updateOne( { _id: id }, { $set: newUserValue });
     
         const finduser = await User.findById(id);
 

@@ -8,11 +8,11 @@ class productService {
         return productList;
     }
 
-    static async getProduct({ name }) {
-        const product = await Product.findByName({ name });
+    static async getProduct({ id }) {
+        const product = await Product.findById({ id });
 
         if(!product) {
-            return "해당하는 상품이 없습니다.";
+            throw new Error("해당하는 상품이 없습니다.");
         }
 
         return product;
@@ -33,8 +33,8 @@ class productService {
         return createProduct;
     }
 
-    static async putProduct({ name, newProductValue }) {
-        let product = await Product.findByName({ name });
+    static async putProduct({ id, newProductValue }) {
+        let product = await Product.findById({ id });
 
         if(!product) {
            throw new Error("해당하는 상품이 없습니다. 상품 아이디를 다시 확인해주세요.");
@@ -47,8 +47,8 @@ class productService {
         return product;
     }
 
-    static async deleteProduct({ productName }) {
-        const product = await Product.findByproName({ productName });
+    static async deleteProduct({ id }) {
+        const product = await Product.findById({ id });
 
         if(!product) {
             throw new Error("해당하는 상품이 없습니다. 상품 아이디를 다시 확인해주세요.");

@@ -2,6 +2,7 @@ const express = require("express");
 const productsRouter = express();
 const productsService = require("../service/productService");
 const upload = require("../../middlewares/multer");
+const adminOnly = require("../../middlewares/admin-only");
 
 productsRouter.get('/', async (req, res, next) => {
     try {
@@ -14,11 +15,11 @@ productsRouter.get('/', async (req, res, next) => {
 });
 
 
-productsRouter.get('/:name', async (req, res, next) => {
+productsRouter.get('/:id', async (req, res, next) => {
     try {
-      const name = req.params.name;
+      const productId = req.params.id;
 
-      const product = await productsService.getProduct({ name });
+      const product = await productsService.getProduct({ id: productId });
 
       res.status(200).send(product);
     } catch(err) {
@@ -26,10 +27,12 @@ productsRouter.get('/:name', async (req, res, next) => {
     }
 });
 
-productsRouter.post('/', upload.fields([ { name: 'mainImg', maxCount: 1 }, { name: 'subImg', maxCount: 1}]), async (req, res, next) => {
+
+// admin이 상품 추가
+productsRouter.post('/admin', adminOnly, upload.fields([ { name: 'main', maxCount: 1 }, { name: 'sub', maxCount: 1}]), async (req, res, next) => {
     try {
-      const mImg = req.files.mainImg[0].location;
-      const sImg = req.files.subImg[0].location;
+      const mImg = req.files.main[0].location;
+      const sImg = req.files.sub[0].location;
 
       const { category, taste, name, price, amount, description, show, origin } = JSON.parse(req.body.data);
       const newProduct = await productsService.addProduct({ category, taste, name, price, amount, mainImg: mImg, subImg: sImg, description, show, origin });
@@ -40,10 +43,10 @@ productsRouter.post('/', upload.fields([ { name: 'mainImg', maxCount: 1 }, { nam
     }
 });
 
-
-productsRouter.put('/:name', async (req, res, next) => {
+// admin이 상품 수정
+productsRouter.put('/admin/:id', adminOnly, async (req, res, next) => {
   try {
-    const productName = req.params.name;
+    const productId = req.params.id;
 
     const category = req.body.category;
     const taste = req.body.taste;
@@ -59,7 +62,7 @@ productsRouter.put('/:name', async (req, res, next) => {
 
     const newProductValue = { category, taste, name, price, amount, mainImage, subImage, description, show, reg_date, origin };
       
-    const putProduct = await productsService.putProduct({ name: productName, newProductValue });
+    const putProduct = await productsService.putProduct({ id: productId, newProductValue });
 
       res.status(200).send(putProduct);
   } catch(err) {
@@ -67,10 +70,11 @@ productsRouter.put('/:name', async (req, res, next) => {
   }
 });
 
-productsRouter.delete('/:name', async (req, res, next) => {
+// admin이 삭제
+productsRouter.delete('/admin/:id', adminOnly, async (req, res, next) => {
   try {
-    const productName = req.params.name;
-    const deleteProduct = await productsService.deleteProduct({ productName });
+    const productId = req.params.id;
+    const deleteProduct = await productsService.deleteProduct({ id: productId });
 
       res.status(200).send(deleteProduct);
   } catch(err) {
@@ -78,26 +82,5 @@ productsRouter.delete('/:name', async (req, res, next) => {
   }
 });
 
-
-// 이미지 테스트
-/*
-productsRouter.post("/image", uploadMain.single('img'),(req, res, next) => {
-  try {
-    console.log(req.file);
-
-
-    res.json({ url: req.file });
-  } catch(err) {
-    next(err);
-  }
-});
-*/
-
-productsRouter.post("/image", upload.fields([ { name: 'mainImg', maxCount: 1 }, { name: 'subImg', maxCount: 1}]), async (req, res, next) => {
-  
-    console.log(req.files.subImg[0].location);
-    console.log(req.body);
-    res.send("good?");
-});
 
 module.exports = productsRouter;

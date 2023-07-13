@@ -34,7 +34,7 @@ const UserSchema = mongoose.Schema({
 },
 {
     versionKey: false
-})
+});
 
 const userModel = model('User', UserSchema);
 

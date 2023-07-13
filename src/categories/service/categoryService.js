@@ -21,8 +21,8 @@ class CategoryService {
         return categoryList;
     }
 
-    static async getCategory({ name }) {
-        const category = await Category.findByName({ name });
+    static async getCategory({ id }) {
+        const category = await Category.findById({ id });
 
         if(!category) {
             throw new Error("해당하는 카테고리가 없습니다. 존재하는 카테고리 이름을 입력해주세요.");
@@ -32,8 +32,8 @@ class CategoryService {
     }
 
 
-    static async deleteCategory({ name }) {
-        const category = await Category.findByName({ name });
+    static async deleteCategory({ id }) {
+        const category = await Category.findById({ id });
 
         if(!category) {
             throw new Error("해당하는 카테고리가 없습니다. 존재하는 카테고리 이름을 입력해주세요.");
@@ -45,14 +45,13 @@ class CategoryService {
         return result;
     }
 
-    static async putCategory({ categoryName, newCategoryValue }) {
-        console.log( categoryName );
-        let category = await Category.findByName({ categoryName });
+    static async putCategory({ categoryId, newCategoryValue }) {
+        let category = await Category.findById({ categoryId });
     
         if(!category) {
             throw new Error("해당하는 카테고리가 없습니다. 존재하는 카테고리 이름을 입력해주세요.");
         }
-        category = await Category.update({ categoryName, newCategoryValue });
+        category = await Category.update({ categoryId, newCategoryValue });
 
         return category;
     }

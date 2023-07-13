@@ -1,9 +1,10 @@
 const express = require("express");
 const categoriesRouter = express();
 const categoryService = require("../service/categoryService");
+const adminOnly = require("../../middlewares/admin-only");
 
-
-categoriesRouter.post('/', async (req, res, next) => {
+// 카테고리 추가
+categoriesRouter.post('/admin', adminOnly, async (req, res, next) => {
   try {
     const { name, description } = req.body;
     const newCategory = await categoryService.addCategory({ name, description });
@@ -14,7 +15,7 @@ categoriesRouter.post('/', async (req, res, next) => {
   }
 });
 
-
+// 카테고리 리스트 불러오기
 categoriesRouter.get('/', async (req, res, next) => {
     try {
       const categoryList = await categoryService.getCategoryList();
@@ -25,12 +26,12 @@ categoriesRouter.get('/', async (req, res, next) => {
     }
 });
 
-
-categoriesRouter.get('/:name', async (req, res, next) => {
+// 카테고리 하나 정보 가져오기
+categoriesRouter.get('/:id', async (req, res, next) => {
     try {
       
-      const categoryName = req.params.name;
-      const category = await categoryService.getCategory({ name: categoryName });
+      const categoryId = req.params.id;
+      const category = await categoryService.getCategory({ id: categoryId });
 
       res.status(200).send(category);
     } catch(err) {
@@ -40,10 +41,10 @@ categoriesRouter.get('/:name', async (req, res, next) => {
 
 // soft삭제 vs 완전삭제
 // 우선 완전삭제 쪽으로
-categoriesRouter.delete('/:name', async (req, res, next) => {
+categoriesRouter.delete('/admin/:id', adminOnly, async (req, res, next) => {
     try {
-      const categoryName = req.params.name;
-      const deleteCategory = await categoryService.deleteCategory({ name: categoryName });
+      const categoryId = req.params.id;
+      const deleteCategory = await categoryService.deleteCategory({ id: categoryId });
 
       res.status(200).send(deleteCategory);
     } catch(err) {
@@ -51,14 +52,15 @@ categoriesRouter.delete('/:name', async (req, res, next) => {
     }
 });
 
-categoriesRouter.put('/:name', async (req, res, next) => {
+// 수정
+categoriesRouter.put('/admin/:id', adminOnly, async (req, res, next) => {
     try {
-      const categoryName = req.params.name;
+      const categoryId = req.params.id;
       const name = req.body.name;
       const description = req.body.description;
       const newCategoryValue = { name, description };
       
-      const putCategory = await categoryService.putCategory({ categoryName, newCategoryValue });
+      const putCategory = await categoryService.putCategory({ categoryId, newCategoryValue });
 
       res.status(200).send(putCategory);
     } catch(err) {

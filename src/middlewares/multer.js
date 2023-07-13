@@ -10,17 +10,17 @@ aws.config.update({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-
 const upload = multer({
         storage: multerS3({
             s3: new aws.S3(),
             bucket: 'coffee-learn-bucket',
             acl: 'public-read',
             key: function (req, file, cb) {
-                cb(null, file.originalname);
+                const folderName = file.fieldname;
+                cb(null, `${folderName}/${file.originalname}`);
             },
         }),
-  });
+});
 
 /*
 const uploadSub = multer({
