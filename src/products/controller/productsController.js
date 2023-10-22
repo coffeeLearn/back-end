@@ -44,23 +44,26 @@ productsRouter.post('/admin', adminOnly, upload.fields([ { name: 'main', maxCoun
 });
 
 // admin이 상품 수정
-productsRouter.put('/admin/:id', adminOnly, async (req, res, next) => {
+productsRouter.put('/admin/:id', adminOnly, upload.fields([ { name: 'main', maxCount: 1 }, { name: 'sub', maxCount: 1}]),async (req, res, next) => {
   try {
     const productId = req.params.id;
 
+    const mainImg = req.files.main[0].location;
+    const subImg = req.files.sub[0].location;
+
+    /*
     const category = req.body.category;
     const taste = req.body.taste;
     const name = req.body.name;
     const price = req.body.price;
     const amount = req.body.amount;
-    const mainImage = req.body.mainImage;
-    const subImage = req.body.subImage;
     const description = req.body.description;
     const show = req.body.show;
     const reg_date = req.body.reg_date;
     const origin = req.body.origin;
-
-    const newProductValue = { category, taste, name, price, amount, mainImage, subImage, description, show, reg_date, origin };
+    */
+    const { category, taste, name, price, amount, description, show, origin } = JSON.parse(req.body.data);
+    const newProductValue = { category, taste, name, price, amount, mainImg, subImg, description, show, reg_date, origin };
       
     const putProduct = await productsService.putProduct({ id: productId, newProductValue });
 

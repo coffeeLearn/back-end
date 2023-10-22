@@ -22,18 +22,6 @@ const upload = multer({
         }),
 });
 
-/*
-const uploadSub = multer({
-        storage: multerS3({
-        s3: s3,
-        bucket: process.env.BUCKET_NAME,
-        acl: 'public-read',
-        key: function (req, file, cb) {
-            cb(null, "sub/" + file.originalname);
-        },
-    }),
-});
-*/
 
 
 module.exports = upload;

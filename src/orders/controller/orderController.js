@@ -33,11 +33,15 @@ orderRouter.post('/users/orders', login_required, async (req, res, next) => {
         const user_id = jwtDecoded.id;
 
         const products = req.body.products;
-        const receiver = req.body.receiver;
+        const receiver = req.body.receiverName;
         const receiverPhone = req.body.receiverPhone;
-        const receiverAddr = req.body.receiverAddr;
+        const address = req.body.address;
+        const detailedAddress = req.body.detailedAddress;
+        const receiverMessage = req.body.receiverMessage;
+        const totalPriceEl = req.body.totalPriceEl;
 
-        const order = await orderService.addOrder({ userId: user_id, products, receiver, receiverPhone, receiverAddr });
+        const order = await orderService.addOrder({ userId: user_id, products, receiver, receiverPhone, 
+            address, detailedAddress, receiverMessage, totalPriceEl });
 
         res.status(200).send(order);
     } catch(err) {

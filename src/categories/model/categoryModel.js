@@ -30,10 +30,8 @@ class CategoryModel {
     }
 
     static async update({ categoryId, newCategoryValue }) {
-        // findOneAndUpdate vs updateOne
-        // 수정이 되었는지 확인하기 위해 반환시켜주는 findOneAndUpdate 사용
 
-        const updateCategory = await Category.findOneAndUpdate( { _id: categoryName }, { $set: newCategoryValue }, { returnNewDocument: true });
+        const updateCategory = await Category.findOneAndUpdate( { _id: categoryId }, { $set: newCategoryValue }, { new: true });
 
         return updateCategory;
     }

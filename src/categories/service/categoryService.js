@@ -46,8 +46,8 @@ class CategoryService {
     }
 
     static async putCategory({ categoryId, newCategoryValue }) {
-        let category = await Category.findById({ categoryId });
-    
+        let category = await Category.findById({ id: categoryId });
+
         if(!category) {
             throw new Error("해당하는 카테고리가 없습니다. 존재하는 카테고리 이름을 입력해주세요.");
         }

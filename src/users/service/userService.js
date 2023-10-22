@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 class userService {
 
-    static async signup({ email, password, name, phone, addr }) {
+    static async signup({ email, password, name, phone, address, detailedAddress }) {
         const user = await User.findByEmail({ email });
 
         if(user) {
@@ -17,7 +17,7 @@ class userService {
 
         const days = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
-        const newUser = { password: hashedPassword, name, phone, email, addr, reg_date: days};
+        const newUser = { password: hashedPassword, name, phone, email, address, detailedAddress, reg_date: days};
 
         const createNewUser = await User.create({ newUser });
 
@@ -37,8 +37,6 @@ class userService {
         if(!passwordMatch) {
             throw new Error("비밀번호가 일치하지 않습니다. 다시 확인해 주세요.");
         }
-
-
 
         const id = user.id;
         const authority = user.authority;

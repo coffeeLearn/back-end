@@ -14,11 +14,17 @@ class orderService {
         return user;
     }
 
-    static async addOrder({ userId, products, receiver, receiverPhone, receiverAddr }) {
+    static async addOrder({ userId, products, receiver, receiverPhone, 
+        address, detailedAddress, receiverMessage, totalPriceEl }) {
         const status = "결제 완료";
         const days = dayjs().format('YYYY-MM-DD HH:mm:ss');
+        const deliverFee = 3000;
 
-        const newOrder = { products, status, reg_date: days, userId, receiver, receiverPhone, receiverAddr };
+        const user = await User.findById({id: userId});
+        const name = user.name;
+
+        const newOrder = { products, status, reg_date: days, userName: name, receiver, receiverPhone,
+            address, detailedAddress, receiverMessage, deliverFee, totalPriceEl };
 
         const createdOrder = await Order.create({ newOrder });
 
@@ -32,7 +38,6 @@ class orderService {
             throw new Error("일치하는 회원이 없습니다. 다시 확인해 주세요.");
         }
 
-        console.log(user.id);
 
         const orderList = await Order.findByUserId({ id });
 

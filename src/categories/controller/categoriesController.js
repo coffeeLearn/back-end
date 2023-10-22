@@ -44,6 +44,7 @@ categoriesRouter.get('/:id', async (req, res, next) => {
 categoriesRouter.delete('/admin/:id', adminOnly, async (req, res, next) => {
     try {
       const categoryId = req.params.id;
+      console.log(categoryId);
       const deleteCategory = await categoryService.deleteCategory({ id: categoryId });
 
       res.status(200).send(deleteCategory);

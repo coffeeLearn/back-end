@@ -14,7 +14,7 @@ const OrderSchema = mongoose.Schema({
         type: Date,
         require: true
     },
-    userId: { 
+    userName: { 
         type: String,
         require:true
     },
@@ -26,8 +26,24 @@ const OrderSchema = mongoose.Schema({
         type: String,
         require: true
     },
-    receiverAddr: {
+    address: {
         type: String,
+        requrie: true
+    },
+    detailedAddress: {
+        type: String,
+        requrie: true
+    },
+    receiverMessage: {
+        type: String,
+        requrie: true
+    },
+    deliverFee: {
+        type: Number,
+        requrie: true
+    },
+    totalPriceEl: {
+        type: Number,
         requrie: true
     }
 },

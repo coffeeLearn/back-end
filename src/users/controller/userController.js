@@ -11,9 +11,9 @@ userRouter.get('/', function(req, res, next) {
 
 userRouter.post("/signup", async (req, res, next) => {
     try {
-        const { email, password, name, phone, addr } = req.body;
+        const { email, password, name, phone, address, detailedAddress } = req.body;
         const newUser = await userService.signup({
-            email, password, name, phone, addr
+            email, password, name, phone, address, detailedAddress
          });
 
          res.status(200).json(newUser);
@@ -39,7 +39,7 @@ userRouter.get("/mypage", login_required, async(req, res, next) => {
     try {
         const userToken = req.headers["authorization"]?.split(" ")[1] ?? "null";
 
-        const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+        const secretKey = process.env.JWT_SECRET_KEY;
         const jwtDecoded = jwt.verify(userToken, secretKey);
         const user_id = jwtDecoded.id;
 
@@ -55,7 +55,7 @@ userRouter.put("/mypage", login_required, async(req, res, next) => {
     try {
         const userToken = req.headers["authorization"]?.split(" ")[1] ?? "null";
 
-        const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+        const secretKey = process.env.JWT_SECRET_KEY;
         const jwtDecoded = jwt.verify(userToken, secretKey);
         const user_id = jwtDecoded.id;
 
@@ -63,9 +63,10 @@ userRouter.put("/mypage", login_required, async(req, res, next) => {
         const name = req.body.name;
         const phone = req.body.phone;
         const email = req.body.email;
-        const addr = req.body.addr;
+        const address = req.body.address;
+        const detailedAddress = req.body.detailedAddress;
 
-        const newUserValue = { password, name, phone, email, addr };
+        const newUserValue = { password, name, phone, email, address, detailedAddress };
 
         const user = await userService.putUser({ id: user_id, newUserValue });
 
@@ -79,7 +80,7 @@ userRouter.delete("/mypage", login_required, async (req, res, next) => {
     try {
         const userToken = req.headers["authorization"]?.split(" ")[1] ?? "null";
 
-        const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+        const secretKey = process.env.JWT_SECRET_KEY;
         const jwtDecoded = jwt.verify(userToken, secretKey);
         const user_id = jwtDecoded.id;
 
