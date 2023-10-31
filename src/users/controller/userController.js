@@ -3,6 +3,7 @@ const userService = require("../service/userService");
 const userRouter = express();
 const jwt = require("jsonwebtoken");
 const login_required = require("../../middlewares/login-required");
+const adminOnly = require("../../middlewares/admin-only");
 require('dotenv').config();
 
 userRouter.get('/', function(req, res, next) {
@@ -87,6 +88,16 @@ userRouter.delete("/mypage", login_required, async (req, res, next) => {
         const withdrawal = await userService.withdrawal({ id: user_id });
 
         res.status(200).send(" 회원 탈퇴 완료 ");
+    } catch(err) {
+        next(err);
+    }
+});
+
+userRouter.get("/admin", adminOnly, async (req, res, next) => {
+    try {
+        const userList = await userService.getUserList();
+
+        res.status(200).send(userList);
     } catch(err) {
         next(err);
     }

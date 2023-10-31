@@ -33,13 +33,12 @@ class orderService {
 
     static async getOrder({ id }) {
         const user = await User.findById({ id });
-
         if(!user) {
             throw new Error("일치하는 회원이 없습니다. 다시 확인해 주세요.");
         }
 
-
-        const orderList = await Order.findByUserId({ id });
+        const name = user.name;
+        const orderList = await Order.findByUserName({ name });
 
         return orderList;
     }

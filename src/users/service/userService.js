@@ -85,6 +85,12 @@ class userService {
 
         return result;
     }
+
+    static async getUserList() {
+        const userList = await User.findAll();
+
+        return userList;
+    }
 }
 
 module.exports = userService;

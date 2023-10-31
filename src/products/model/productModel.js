@@ -27,7 +27,7 @@ class ProductModel {
 
     static async update({ productObjectId, newProductValue }) {
 
-        const updateProduct = await Product.findOneAndUpdate( { _id: productObjectId }, { $set: newProductValue }, { returnNewDocument: true });
+        const updateProduct = await Product.findOneAndUpdate( { _id: productObjectId }, { $set: newProductValue }, { new: true });
 
         console.log(updateProduct);
 

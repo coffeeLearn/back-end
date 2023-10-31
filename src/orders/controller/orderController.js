@@ -33,7 +33,7 @@ orderRouter.post('/users/orders', login_required, async (req, res, next) => {
         const user_id = jwtDecoded.id;
 
         const products = req.body.products;
-        const receiver = req.body.receiverName;
+        const receiver = req.body.receiver;
         const receiverPhone = req.body.receiverPhone;
         const address = req.body.address;
         const detailedAddress = req.body.detailedAddress;

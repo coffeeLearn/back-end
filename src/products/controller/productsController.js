@@ -43,14 +43,20 @@ productsRouter.post('/admin', adminOnly, upload.fields([ { name: 'main', maxCoun
     }
 });
 
+
 // admin이 상품 수정
-productsRouter.put('/admin/:id', adminOnly, upload.fields([ { name: 'main', maxCount: 1 }, { name: 'sub', maxCount: 1}]),async (req, res, next) => {
+productsRouter.patch('/admin/:id', adminOnly, upload?.fields([ { name: 'main', maxCount: 1 }, { name: 'sub', maxCount: 1}]),async (req, res, next) => {
   try {
     const productId = req.params.id;
 
-    const mainImg = req.files.main[0].location;
-    const subImg = req.files.sub[0].location;
-
+    if(files) {
+      const mainImg = req.files.main[0].location;
+      const subImg = req.files.sub[0].location;
+    } else {
+      const mainImg = req.body.mainImg;
+      const subImg = req.body.mainImg;
+    }
+    
     /*
     const category = req.body.category;
     const taste = req.body.taste;

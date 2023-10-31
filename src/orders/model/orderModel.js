@@ -17,8 +17,8 @@ class OrderModel {
         return await Order.find({});
     }
 
-    static async findByUserId({ id }) {
-        const orderList = await Order.findOne({ userId: id });
+    static async findByUserName({ name }) {
+        const orderList = await Order.find({ userName: name });
 
         return orderList;
     }
