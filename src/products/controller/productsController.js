@@ -3,6 +3,7 @@ const productsRouter = express();
 const productsService = require("../service/productService");
 const upload = require("../../middlewares/multer");
 const adminOnly = require("../../middlewares/admin-only");
+const ObjectId = require('mongodb').ObjectId;
 
 productsRouter.get('/', async (req, res, next) => {
     try {
@@ -44,20 +45,44 @@ productsRouter.post('/admin', adminOnly, upload.fields([ { name: 'main', maxCoun
 
 
 // admin이 상품 수정
-productsRouter.patch('/admin/:id', adminOnly, async (req, res, next) => {
+productsRouter.patch('/admin/:id', adminOnly, upload?.fields([ { name: 'main', maxCount: 1 }, { name: 'sub', maxCount: 1}]),async (req, res, next) => {
   try {
     const productId = req.params.id;
 
+    let mainImg = "";
+    let subImg = "";
+
+    const image= JSON.stringify(req.files);
+    const data = JSON.parse(req.body.data);
+
+    if(image === '{}') {
+      mainImg = data.mainImg;
+      subImg = data.subImg;
+    } else if(image.includes("main") && !image.includes("sub")){
+      mainImg = req.files.main[0].location;
+      subImg = data.subImg;
+      console.log(mainImg + " \n " +subImg);
+    } else if(image.includes("sub") && !image.includes("main")){
+      mainImg = data.mainImg;
+      subImg = req.files.sub[0].location;
+      console.log(mainImg + " \n " +subImg);
+    } else {
+      mainImg = req.files.main[0].location;
+      subImg = req.files.sub[0].location;
+    }
+
+    
     const { category, taste, name, price, amount, description, show, origin, salePercent } = JSON.parse(req.body.data);
-    const newProductValue = { category, taste, name, price, amount, mainImg, subImg, description, show, reg_date, origin, salePercent };
+    const newProductValue = { category, taste, name, price, amount, mainImg, subImg, description, show, origin, salePercent };
       
     const putProduct = await productsService.putProduct({ id: productId, newProductValue });
 
-      res.status(200).send(putProduct);
+    res.status(200).send(putProduct);
   } catch(err) {
     next(err);
   }
 });
+
 
 // admin이 삭제
 productsRouter.delete('/admin/:id', adminOnly, async (req, res, next) => {

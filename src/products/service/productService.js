@@ -34,12 +34,12 @@ class productService {
     }
 
     static async putProduct({ id, newProductValue }) {
-        let product = await Product.findById({ id });
+        
+        let product = await Product.findById(id);
 
         if(!product) {
            throw new Error("해당하는 상품이 없습니다. 상품 아이디를 다시 확인해주세요.");
         }
-
         const productObjectId = product._id;
         
         product = await Product.update({ productObjectId, newProductValue });
