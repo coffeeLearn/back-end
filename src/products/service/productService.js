@@ -9,7 +9,7 @@ class productService {
     }
 
     static async getProduct({ id }) {
-        const product = await Product.findById({ id });
+        const product = await Product.findById(id);
 
         if(!product) {
             throw new Error("해당하는 상품이 없습니다.");
@@ -18,7 +18,7 @@ class productService {
         return product;
     }
 
-    static async addProduct({ category, taste, name, price, amount, mainImg, subImg, description, show, origin}) {
+    static async addProduct({ category, taste, name, price, amount, mainImg, subImg, description, show, origin, salePercent}) {
         const product = await Product.findByName({ name });
 
         if(product) {
@@ -27,7 +27,7 @@ class productService {
 
         const days = dayjs().format("YYYY-MM-DD HH:mm:ss");
         
-        const newProduct = { category, taste, name, price, amount, mainImg, subImg, description, show, reg_date: days, origin};
+        const newProduct = { category, taste, name, price, amount, mainImg, subImg, description, show, reg_date: days, origin, salePercent };
         const createProduct = await Product.create({ newProduct });
 
         return createProduct;

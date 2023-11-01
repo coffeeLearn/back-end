@@ -18,7 +18,6 @@ productsRouter.get('/', async (req, res, next) => {
 productsRouter.get('/:id', async (req, res, next) => {
     try {
       const productId = req.params.id;
-
       const product = await productsService.getProduct({ id: productId });
 
       res.status(200).send(product);
@@ -34,8 +33,8 @@ productsRouter.post('/admin', adminOnly, upload.fields([ { name: 'main', maxCoun
       const mImg = req.files.main[0].location;
       const sImg = req.files.sub[0].location;
 
-      const { category, taste, name, price, amount, description, show, origin } = JSON.parse(req.body.data);
-      const newProduct = await productsService.addProduct({ category, taste, name, price, amount, mainImg: mImg, subImg: sImg, description, show, origin });
+      const { category, taste, name, price, amount, description, show, origin, salePercent } = JSON.parse(req.body.data);
+      const newProduct = await productsService.addProduct({ category, taste, name, price, amount, mainImg: mImg, subImg: sImg, description, show, origin, salePercent });
 
       res.status(200).json(newProduct);
     } catch(err) {
@@ -45,31 +44,12 @@ productsRouter.post('/admin', adminOnly, upload.fields([ { name: 'main', maxCoun
 
 
 // admin이 상품 수정
-productsRouter.patch('/admin/:id', adminOnly, upload?.fields([ { name: 'main', maxCount: 1 }, { name: 'sub', maxCount: 1}]),async (req, res, next) => {
+productsRouter.patch('/admin/:id', adminOnly, async (req, res, next) => {
   try {
     const productId = req.params.id;
 
-    if(files) {
-      const mainImg = req.files.main[0].location;
-      const subImg = req.files.sub[0].location;
-    } else {
-      const mainImg = req.body.mainImg;
-      const subImg = req.body.mainImg;
-    }
-    
-    /*
-    const category = req.body.category;
-    const taste = req.body.taste;
-    const name = req.body.name;
-    const price = req.body.price;
-    const amount = req.body.amount;
-    const description = req.body.description;
-    const show = req.body.show;
-    const reg_date = req.body.reg_date;
-    const origin = req.body.origin;
-    */
-    const { category, taste, name, price, amount, description, show, origin } = JSON.parse(req.body.data);
-    const newProductValue = { category, taste, name, price, amount, mainImg, subImg, description, show, reg_date, origin };
+    const { category, taste, name, price, amount, description, show, origin, salePercent } = JSON.parse(req.body.data);
+    const newProductValue = { category, taste, name, price, amount, mainImg, subImg, description, show, reg_date, origin, salePercent };
       
     const putProduct = await productsService.putProduct({ id: productId, newProductValue });
 

@@ -1,7 +1,6 @@
 const { mongoose, model } = require("mongoose");
 
 const ProductSchema = mongoose.Schema({
-    // 몽고디비의 _id 사용
     category: {
         type: String,
         require: false
@@ -49,6 +48,10 @@ const ProductSchema = mongoose.Schema({
     },
     option: {
         type: String,
+        require: false
+    },
+    salePercent: {
+        type: Number,
         require: false
     }
 },

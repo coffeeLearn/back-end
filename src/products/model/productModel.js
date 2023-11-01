@@ -15,8 +15,8 @@ class ProductModel {
         return await Product.find({});
     }
 
-    static async findById({ productId }) {
-        const product = await Product.findById(productId);
+    static async findById(id) {
+        const product = await Product.findById(id);
         return product;
     }
 
