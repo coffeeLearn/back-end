@@ -33,7 +33,6 @@ class userService {
 
         const userPassword = user.password;
         const passwordMatch = await bcrypt.compare(password, userPassword);
-        console.log(passwordMatch);
         if(!passwordMatch) {
             throw new Error("비밀번호가 일치하지 않습니다. 다시 확인해 주세요.");
         }

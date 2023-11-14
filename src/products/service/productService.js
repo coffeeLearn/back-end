@@ -48,7 +48,7 @@ class productService {
     }
 
     static async deleteProduct({ id }) {
-        const product = await Product.findById({ id });
+        const product = await Product.findById(id);
 
         if(!product) {
             throw new Error("해당하는 상품이 없습니다. 상품 아이디를 다시 확인해주세요.");
