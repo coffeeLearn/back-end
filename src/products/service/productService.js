@@ -59,6 +59,12 @@ class productService {
 
         return result;
     }
+
+    static async getNames() {
+        const productNames = await Product.getProductNames();
+
+        return productNames;
+    }
 }
 
 module.exports = productService;

@@ -34,6 +34,10 @@ const InquirySchema = mongoose.Schema({
     answer: {
         type: String,
         require: false
+    },
+    answer_date: {
+        type: Date,
+        require: false
     }
 },
 {

@@ -3,6 +3,7 @@ const productsRouter = express();
 const productsService = require("../service/productService");
 const upload = require("../../middlewares/multer");
 const adminOnly = require("../../middlewares/admin-only");
+const login_required = require("../../middlewares/login-required");
 const ObjectId = require('mongodb').ObjectId;
 
 productsRouter.get('/', async (req, res, next) => {
@@ -94,6 +95,18 @@ productsRouter.delete('/admin/:id', adminOnly, async (req, res, next) => {
   } catch(err) {
     next(err);
   }
+});
+
+// 문의할 때 상품명 가져오기
+productsRouter.get('/inquiry/list', async (req, res, next) => {
+  try {
+    const prodcuts = await productsService.getNames();
+
+    res.status(200).send(prodcuts);
+  } catch(err) {
+    next(err);
+  }
+
 });
 
 

@@ -40,6 +40,18 @@ class ProductModel {
         return '상품 삭제 완료';
     }
 
+    static async getProductNames() {
+        const products = await Product.find({});
+        const productNames = [];
+
+        products.forEach(element => {
+            productNames.push(element.name);
+        });
+        
+
+        return productNames;
+    }
+
 }
 
 module.exports = ProductModel;

@@ -22,8 +22,8 @@ class InquiryModel {
         return inquiries;
     }
 
-    static async answer({ id, answer }) {
-        const updateInquiry = await Inquiry.findOneAndUpdate( { _id: id }, { answer: answer, status: '답변 완료' }, { new: true });
+    static async answer({ id, answer, create_date }) {
+        const updateInquiry = await Inquiry.findOneAndUpdate( { _id: id }, { answer: answer, status: '답변 완료', create_date: create_date }, { new: true });
 
         return updateInquiry;
     }
@@ -38,6 +38,12 @@ class InquiryModel {
         await Inquiry.deleteOne(id);
 
         return '문의 삭제 완료';
+    }
+
+    static async findByWriterId(id) {
+        const inquiries = await Inquiry.find({ writer_id: id });
+        
+        return inquiries;
     }
 
 }

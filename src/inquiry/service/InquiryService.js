@@ -1,5 +1,6 @@
 const Inquiry = require("../model/inquiryModel");
 const dayjs = require("dayjs");
+const Product = require("../../products/model/productModel");
 
 class InquiryService {
     static async addInpuiry({ title, content, writer_id, password, product_id }) {
@@ -27,8 +28,9 @@ class InquiryService {
         if(!inpuiry) {
            throw new Error("해당하는 문의가 없습니다. 다시 확인해주세요.");
         }
+        const create_date = dayjs().format("YYYY-MM-DD HH:mm:ss");
 
-        inpuiry = await Inquiry.answer({ id, answer });
+        inpuiry = await Inquiry.answer({ id, answer, create_date });
 
         return inpuiry;
     }
@@ -58,19 +60,37 @@ class InquiryService {
     }
 
     static async remove({ id, writer_id }) {
-        const inpuiry = await Inquiry.findById(id);
+        const inquiry = await Inquiry.findById(id);
 
-        if(!inpuiry) {
+        if(!inquiry) {
             throw new Error("해당하는 문의가 존재하지 않습니다.");
         }
 
-        if(writer_id != inpuiry.writer_id) {
+        if(writer_id != inquiry.writer_id) {
             throw new Error("작성자가 일치하지 않습니다.");
         }
 
         const result = await Inquiry.delete(id);
 
         return result;
+    }
+
+    static async getMyInquiry(writer_id) {
+        const inquiries = await Inquiry.findByWriterId(writer_id);
+        return inquiries;
+    }
+
+    static async addInpuiryMypage({ title, content, writer_id, name }) {
+        console.log("ㅇ이이이이잉ㅇ");
+        const product = await Product.findByName({name});
+        console.log(product);
+        const id = product._id;
+
+        const create_date = dayjs().format("YYYY-MM-DD HH:mm:ss");
+        const newInquiry = { title, content, writer_id, create_date, password: "", product_id: id };
+        const createInquiry = await Inquiry.write({ newInquiry });
+
+        return createInquiry;
     }
 
 }
